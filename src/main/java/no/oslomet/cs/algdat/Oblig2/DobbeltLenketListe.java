@@ -10,6 +10,12 @@ import java.util.Iterator;
 
 public class DobbeltLenketListe<T> implements Liste<T> {
 
+    public static void main(String[] args) {
+        Liste<String> liste = new DobbeltLenketListe<>();
+        System.out.println(liste.antall() + " " + liste.tom());
+        // Utskrift: 0 true
+    }
+
     /**
      * Node class
      *
@@ -48,15 +54,47 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         throw new UnsupportedOperationException();
     }
 
+
+
+
+
+
     @Override
     public int antall() {
-        throw new UnsupportedOperationException();
+
+        // Deklarerer og initialiserer tellevariabelen, med starverdi 0.
+        int antall = 0;
+
+        // While-løkke som løper gjennom elementene og teller for hvert element den finner til "hode" viser null.
+        while (hode != null) {
+            antall++;
+            hode = hode.neste;
+        }
+
+        // Returnerer antallet.
+        return antall;
     }
 
     @Override
     public boolean tom() {
-        throw new UnsupportedOperationException();
+
+        // Sjekker om listen er tom, hvis ikke returnerer den false.
+        if (hode != null) {
+            return false;
+        }
+
+        // Hvis listen er tom returneres true.
+        return true;
     }
+
+
+
+
+
+
+
+
+
 
     @Override
     public boolean leggInn(T verdi) {
