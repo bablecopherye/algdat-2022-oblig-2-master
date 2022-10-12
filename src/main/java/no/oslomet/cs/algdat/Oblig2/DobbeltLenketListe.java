@@ -20,6 +20,17 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         Liste<String> liste2 = new DobbeltLenketListe<>(s);
         System.out.println(liste2.antall() + " " + liste2.tom());
         // Utskrift: 3 false
+
+        String[] s1 = {}, s2 = {"A"}, s3 = {null,"A",null,"B",null};
+        DobbeltLenketListe<String> l1 = new DobbeltLenketListe<>(s1);
+        DobbeltLenketListe<String> l2 = new DobbeltLenketListe<>(s2);
+        DobbeltLenketListe<String> l3 = new DobbeltLenketListe<>(s3);
+
+        System.out.println(l1.toString() + " " + l2.toString()
+                + " " + l3.toString() + " " + l1.omvendtString() + " "
+                + l2.omvendtString() + " " + l3.omvendtString());
+
+        // Utskrift: [] [A] [A, B] [] [A] [B, A]
     }
 
     /**
@@ -165,13 +176,100 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         throw new UnsupportedOperationException();
     }
 
+
+
+
+
+
     @Override
     public String toString() {
-        throw new UnsupportedOperationException();
+
+        // Mye av løsningen i denne metoden er direkte inspirert av kompendiet, under oppgaver til avsnitt 3.3.2.
+
+        // Benytter StringBuilder for å akkumulere tegn/verdier til en hel streng.
+        StringBuilder tegn = new StringBuilder();
+
+        // Legger til første klammeparantes, ettersom tegnene/verdiene skal samles mellom to klammeparanteser
+        tegn.append('[');
+
+        // Hvis listen ikke er tom...
+        if (tom() == false) {
+
+            // ... så legges først verdien til hodenoden i den lenkede listen til StringBuilder-en.
+            Node<T> node = hode;
+            tegn.append(node.verdi);
+
+            // Deretter finner vi verdien til neste node:
+            node = node.neste;
+
+            // For så å traversere gjennom resten (hvis det er noe mer) fram til halenoden.
+            while (node != null) {
+
+                // Legger til komma (','), mellomrom (' ') og til slutt verdien til den aktuelle noden.
+                tegn.append(',');
+                tegn.append(' ');
+                tegn.append(node.verdi);
+
+                // Går så videre til neste node
+                node = node.neste;
+            }
+        }
+
+        // Til slutt legges den siste klammeparantesen til
+        tegn.append(']');
+
+        // Returnerer den ferdige strengen
+        return tegn.toString();
+
     }
 
+
+
+
+
+
+
     public String omvendtString() {
-        throw new UnsupportedOperationException();
+
+
+        // Mye av løsningen i denne metoden er direkte inspirert av kompendiet, under oppgaver til avsnitt 3.3.2.
+
+        // Benytter StringBuilder for å akkumulere tegn/verdier til en hel streng, fra hale til hodet.
+        StringBuilder tegn = new StringBuilder();
+
+        // Legger til første klammeparantes, ettersom tegnene/verdiene skal samles mellom to klammeparanteser
+        tegn.append('[');
+
+        // Hvis listen ikke er tom...
+        if (tom() == false) {
+
+            // ... så legges først verdien til halenoden i den lenkede listen til StringBuilder-en.
+            Node<T> node = hale;
+            tegn.append(node.verdi);
+
+            // Deretter finner vi verdien til forrige node:
+            node = node.forrige;
+
+            // For så å traversere gjennom resten (hvis det er noe mer) fram til hodenoden.
+            while (node != null) {
+
+                // Legger til komma (','), mellomrom (' ') og til slutt verdien til den aktuelle noden.
+                tegn.append(',');
+                tegn.append(' ');
+                tegn.append(node.verdi);
+
+                // Går så videre til noden før
+                node = node.forrige;
+            }
+        }
+
+        // Til slutt legges den siste klammeparantesen til
+        tegn.append(']');
+
+        // Returnerer den ferdige strengen
+        return tegn.toString();
+
+
     }
 
     @Override
