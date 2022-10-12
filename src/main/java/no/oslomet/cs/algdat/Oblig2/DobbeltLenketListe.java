@@ -6,14 +6,20 @@ package no.oslomet.cs.algdat.Oblig2;
 
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.Objects;
 
 
 public class DobbeltLenketListe<T> implements Liste<T> {
 
     public static void main(String[] args) {
-        Liste<String> liste = new DobbeltLenketListe<>();
-        System.out.println(liste.antall() + " " + liste.tom());
+        Liste<String> liste1 = new DobbeltLenketListe<>();
+        System.out.println(liste1.antall() + " " + liste1.tom());
         // Utskrift: 0 true
+
+        String[] s = {"Ole", null, "Per", "Kari", null};
+        Liste<String> liste2 = new DobbeltLenketListe<>(s);
+        System.out.println(liste2.antall() + " " + liste2.tom());
+        // Utskrift: 3 false
     }
 
     /**
@@ -42,36 +48,54 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     private int antall;            // antall noder i listen
     private int endringer;         // antall endringer i listen
 
-    public DobbeltLenketListe() {
-        throw new UnsupportedOperationException();
-    }
+    public DobbeltLenketListe() { }
 
     public DobbeltLenketListe(T[] a) {
-        throw new UnsupportedOperationException();
+
+        // Sjekker om tabellen er tom
+        Objects.requireNonNull(a, "Tabellen a er null!");
+
+        // Initialiserer i, som skal brukes i flere steder
+        int i = 0;
+
+        // Finner den første indeksen i a som ikke har en verdi null
+        for (; i < a.length && a[i] == null; i++) {
+
+            // Hvis det kun er null-verdier i tabellen, så returneres det at tabellen er null.
+            if (i == a.length-1) {
+                Objects.requireNonNull(a, "Tabellen a er null!");
+            }
+        }
+
+        // Legger til noder
+        if (i < a.length) {
+
+            // Den første noden legges til
+            Node<T> node = hode = new Node<>(a[i]);
+
+            // Løper videre med en for-løkke og legger noder etter hverandre
+            for (; i < a.length; i++) {
+
+                // Legger kun til node hvis den ikke er null
+                if (a[i] != null) {
+                    node = node.neste = new Node<>(a[i]);
+                    antall++;
+                }
+            }
+
+            // Legger til halenoden.
+            hale = node;
+        }
     }
 
     public Liste<T> subliste(int fra, int til) {
         throw new UnsupportedOperationException();
     }
 
-
-
-
-
-
     @Override
     public int antall() {
 
-        // Deklarerer og initialiserer tellevariabelen, med starverdi 0.
-        int antall = 0;
-
-        // While-løkke som løper gjennom elementene og teller for hvert element den finner til "hode" viser null.
-        while (hode != null) {
-            antall++;
-            hode = hode.neste;
-        }
-
-        // Returnerer antallet.
+        // Returnerer antallet som er telt opp i metoden DobbeltLenketListe(T[] a)
         return antall;
     }
 
