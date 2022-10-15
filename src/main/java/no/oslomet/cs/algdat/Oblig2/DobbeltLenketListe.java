@@ -32,6 +32,22 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                 + l2.omvendtString() + " " + l3.omvendtString());
 
         // Utskrift: [] [A] [A, B] [] [A] [B, A]
+
+
+        DobbeltLenketListe<Integer> liste = new DobbeltLenketListe<>();
+        System.out.println(liste.toString() + " " + liste.omvendtString());
+        for (int i = 1; i <= 3; i++) {
+            liste.leggInn(i);
+            System.out.println(liste.toString() + " " + liste.omvendtString());
+        }
+
+        // Utskrift:
+        // [] []
+        // [1] [1]
+        // [1, 2] [2, 1]
+        // [1, 2, 3] [3, 2, 1]
+
+
     }
 
     /**
@@ -76,18 +92,17 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             // Legger kun til ny node hvis indeks a[i] ikke har verdien null.
             if (a[i] != null) {
 
-                // Legger til en ny node
+                // Legger til en ny node og øker både antallet og endringer med én
                 Node<T> nyNode = new Node<>(a[i]);
-
-                // Øker antallet med én
                 antall++;
+                endringer++;
 
                 // Hvis listen er tom så legges noden til halen
                 if (tom()) {
                     hale = nyNode;
                 }
 
-                // Ellers legges de nye nodene til fra hode
+                // Ellers legges de nye nodene til fra hodet
                 else {
                     hode.forrige = nyNode;
                 }
@@ -112,7 +127,8 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         // Returnerer antallet som er telt opp i metoden DobbeltLenketListe(T[] a)
         return antall;
-    }
+
+    } // antall()
 
     @Override
     public boolean tom() {
@@ -124,21 +140,44 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         // Hvis listen er tom returneres true.
         return true;
-    }
 
-
-
-
-
-
-
-
-
+    }  // tom()
 
     @Override
     public boolean leggInn(T verdi) {
-        throw new UnsupportedOperationException();
-    }
+
+        // Mye av løsningen i denne metoden er direkte inspirert av kompendiet, under avsnitt 3.3.2.
+
+        // Null-verdier er ikke tillatt
+        Objects.requireNonNull(verdi, "Null-verdier er ikke tillatt.");
+
+        // Oppretter ny node med innkommende verdi
+        Node<T> nyNode = new Node<>(verdi);
+
+        // Hvis tom liste
+        if (antall == 0)  {
+
+            // Både hode og hale peker på den nye noden
+            hode = hale = nyNode;
+        }
+
+        // Hvis ikke tom liste
+        else {
+
+            // hale sin neste tilordnes nyNode, nyNode sin forrige tilordnes hale sin verdi og halepekeren flyttes bakerst
+            hale.neste = nyNode;
+            nyNode.forrige = hale;
+            hale = nyNode;
+        }
+
+        // Øker antallet og endringer med én
+        antall++;
+        endringer++;
+
+        // Returnerer true ved vellykket innlegging av node
+        return true;
+
+    } // leggInn(T verdi)
 
     @Override
     public void leggInn(int indeks, T verdi) {
@@ -180,11 +219,6 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         throw new UnsupportedOperationException();
     }
 
-
-
-
-
-
     @Override
     public String toString() {
 
@@ -223,7 +257,8 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         // Returnerer den ferdige strengen
         return tegn.toString();
-    }
+
+    } // toString()
 
     public String omvendtString() {
 
@@ -263,7 +298,8 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         // Returnerer den ferdige strengen
         return tegn.toString();
-    }
+
+    } // omvendtString()
 
     @Override
     public Iterator<T> iterator() {
