@@ -12,6 +12,7 @@ import java.util.Objects;
 public class DobbeltLenketListe<T> implements Liste<T> {
 
     public static void main(String[] args) {
+
         Liste<String> liste1 = new DobbeltLenketListe<>();
         System.out.println(liste1.antall() + " " + liste1.tom());
         // Utskrift: 0 true
@@ -199,11 +200,10 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         if (tom() == false) {
 
             // ... så legges først verdien til hodenoden i den lenkede listen til StringBuilder-en.
-            Node<T> node = hode;
-            tegn.append(node.verdi);
+            tegn.append(hode.verdi);
 
             // Deretter finner vi verdien til neste node:
-            node = node.neste;
+            Node<T> node = hode.neste;
 
             // For så å traversere gjennom resten (hvis det er noe mer) fram til halenoden.
             while (node != null) {
@@ -223,17 +223,9 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         // Returnerer den ferdige strengen
         return tegn.toString();
-
     }
 
-
-
-
-
-
-
     public String omvendtString() {
-
 
         // Mye av løsningen i denne metoden er direkte inspirert av kompendiet, under oppgaver til avsnitt 3.3.2.
 
@@ -271,8 +263,6 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         // Returnerer den ferdige strengen
         return tegn.toString();
-
-
     }
 
     @Override
