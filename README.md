@@ -10,6 +10,6 @@ Hele denne obligen har blitt løst av Alexander.
 
 # Oppgavebeskrivelse
 
-I oppgave 1 så gikk vi frem ved å ...
+Oppgave 1: Se kommentarer i kildekoden.
 
-I oppgave 2 så brukte vi en ... til å ...
+Oppgave 2: Se kommentarer i kildekoden.
