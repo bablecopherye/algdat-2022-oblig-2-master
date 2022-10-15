@@ -63,41 +63,44 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     public DobbeltLenketListe(T[] a) {
 
+        this.hode = null;
+        this.hale = null;
+
         // Sjekker om tabellen er tom
-        Objects.requireNonNull(a, "Tabellen a er null!");
+       Objects.requireNonNull(a, "Tabellen a er null!");
 
-        // Initialiserer i, som skal brukes i flere steder
-        int i = 0;
+        // Løkke som løper gjennom fra slutt til start
+        for (int i = a.length-1; i >= 0; i--) {
 
-        // Finner den første indeksen i a som ikke har en verdi null
-        for (; i < a.length && a[i] == null; i++) {
+            // Legger kun til ny node hvis indeks a[i] ikke har verdien null.
+            if (a[i] != null) {
 
-            // Hvis det kun er null-verdier i tabellen, så returneres det at tabellen er null.
-            if (i == a.length-1) {
-                Objects.requireNonNull(a, "Tabellen a er null!");
-            }
-        }
+                // Legger til en ny node
+                Node<T> nyNode = new Node<>(a[i]);
 
-        // Legger til noder
-        if (i < a.length) {
+                // Øker antallet med én
+                antall++;
 
-            // Den første noden legges til
-            Node<T> node = hode = new Node<>(a[i]);
-
-            // Løper videre med en for-løkke og legger noder etter hverandre
-            for (; i < a.length; i++) {
-
-                // Legger kun til node hvis den ikke er null
-                if (a[i] != null) {
-                    node = node.neste = new Node<>(a[i]);
-                    antall++;
+                // Hvis listen er tom så legges noden til halen
+                if (tom()) {
+                    hale = nyNode;
                 }
-            }
 
-            // Legger til halenoden.
-            hale = node;
+                // Ellers legges de nye nodene til fra hode
+                else {
+                    hode.forrige = nyNode;
+                }
+
+                // nyNode sin neste tilordnes hode-verdien
+                nyNode.neste = hode;
+
+                // hode tilordnes nyNode sin verdi
+                hode = nyNode;
+            }
         }
-    }
+    } // DobbeltLenketListe(T[] a)
+
+
 
     public Liste<T> subliste(int fra, int til) {
         throw new UnsupportedOperationException();
