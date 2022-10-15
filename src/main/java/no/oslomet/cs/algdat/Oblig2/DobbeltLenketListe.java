@@ -48,6 +48,13 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         // [1, 2, 3] [3, 2, 1]
 
 
+        Character[] c = {'A','B','C','D','E','F','G','H','I','J',};
+        DobbeltLenketListe<Character> liste3 = new DobbeltLenketListe<>(c);
+        System.out.println(liste3.subliste(3,8));  // [D, E, F, G, H]
+        System.out.println(liste3.subliste(5,5));  // []
+        System.out.println(liste3.subliste(8,liste3.antall()));  // [I, J]
+        // System.out.println(liste3.subliste(0,11));  // skal kaste unntak
+
     }
 
     /**
@@ -119,7 +126,9 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
 
     public Liste<T> subliste(int fra, int til) {
-        throw new UnsupportedOperationException();
+
+
+
     }
 
     @Override
@@ -191,7 +200,11 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public T hent(int indeks) {
-        throw new UnsupportedOperationException();
+
+        // Koden er hentet fra kompendiet, programkode 3.3.3 b.
+
+        indeksKontroll(indeks, false);
+        return finnNode(indeks).verdi;
     }
 
     @Override
@@ -201,7 +214,20 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public T oppdater(int indeks, T nyverdi) {
-        throw new UnsupportedOperationException();
+
+        // Koden er i stor grad hentet fra kompendiet, programkode 3.3.3 b.
+
+        Objects.requireNonNull(nyverdi, "Ikke tillatt med null-verdier!");
+
+        indeksKontroll(indeks, false);
+
+        Node<T> node = finnNode(indeks);
+        T gammelVerdi = node.verdi;
+
+        node.verdi = nyverdi;
+        endringer++;
+
+        return gammelVerdi;
     }
 
     @Override
@@ -344,6 +370,26 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     public static <T> void sorter(Liste<T> liste, Comparator<? super T> c) {
         throw new UnsupportedOperationException();
+    }
+
+    private Node<T> finnNode(int indeks) {
+
+        Node<T> node;
+
+        if (indeks < antall/2) {
+            node = hode;
+            for (int i = 0; i < indeks; i++) {
+                node = node.neste;
+            }
+        }
+
+        else {
+            node = hale;
+            for (int i = antall; i > indeks; i--) {
+                node = node.forrige;
+            }
+        }
+        return node;
     }
 
 } // class DobbeltLenketListe
