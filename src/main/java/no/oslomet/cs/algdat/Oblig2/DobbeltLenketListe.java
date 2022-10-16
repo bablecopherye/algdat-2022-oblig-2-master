@@ -14,7 +14,7 @@ import java.util.Objects;
 public class DobbeltLenketListe<T> implements Liste<T> {
 
     public static void main(String[] args) {
-/*
+
         Liste<String> liste1 = new DobbeltLenketListe<>();
         System.out.println(liste1.antall() + " " + liste1.tom());
         // Utskrift: 0 true
@@ -49,7 +49,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         // [1, 2] [2, 1]
         // [1, 2, 3] [3, 2, 1]
 
-*/
+
         Character[] c = {'A','B','C','D','E','F','G','H','I','J',};
         DobbeltLenketListe<Character> liste3 = new DobbeltLenketListe<>(c);
         System.out.println(liste3.subliste(3,8));  // [D, E, F, G, H]
@@ -125,37 +125,34 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         }
     } // DobbeltLenketListe(T[] a)
 
-
-
-
-
     public Liste<T> subliste(int fra, int til) {
 
+        // Sjekker om indeksene fra og til er lovlige
         fratilKontroll(antall, fra, til);
 
+        // Oppretter en instans  av  klassen DobbeltLenketListe
         DobbeltLenketListe<T> nySubliste = new DobbeltLenketListe<>();
 
+        // Deklarerer node-variabelen
         Node<T> node;
 
+        // Løkke som løper fra og med indeksen "fra" til indeksen "til".
         for (int i = fra; i < til; i++) {
 
+            // Finner node-verdien til den aktuelle noden
             node = finnNode(i);
 
+            // Legger inn den aktuelle noden i nySubliste
             nySubliste.leggInn(node.verdi);
         }
 
+        // Endringer settes til 0
         endringer = 0;
 
+        // Returnerer sublisten
         return nySubliste;
-    }
 
-
-
-
-
-
-
-
+    } // Liste<T> subliste(int fra, int til)
 
     @Override
     public int antall() {
@@ -411,7 +408,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         else {
             node = hale;
-            for (int i = antall; i > indeks; i--) {
+            for (int i = antall-1; i > indeks; i--) {
                 node = node.forrige;
             }
         }
@@ -427,7 +424,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         if (til > antall)                          // til er utenfor tabellen
             throw new IndexOutOfBoundsException
-                    ("til(" + til + ") > tablengde(" + antall + ")");
+                    ("til(" + til + ") > antall(" + antall + ")");
 
         if (fra > til)                                // fra er større enn til
             throw new IllegalArgumentException
