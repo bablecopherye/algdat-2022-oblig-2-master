@@ -4,15 +4,17 @@ package no.oslomet.cs.algdat.Oblig2;
 ////////////////// class DobbeltLenketListe //////////////////////////////
 
 
+import java.io.InvalidObjectException;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Objects;
 
 
 public class DobbeltLenketListe<T> implements Liste<T> {
 
     public static void main(String[] args) {
-
+/*
         Liste<String> liste1 = new DobbeltLenketListe<>();
         System.out.println(liste1.antall() + " " + liste1.tom());
         // Utskrift: 0 true
@@ -47,7 +49,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         // [1, 2] [2, 1]
         // [1, 2, 3] [3, 2, 1]
 
-
+*/
         Character[] c = {'A','B','C','D','E','F','G','H','I','J',};
         DobbeltLenketListe<Character> liste3 = new DobbeltLenketListe<>(c);
         System.out.println(liste3.subliste(3,8));  // [D, E, F, G, H]
@@ -125,11 +127,35 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
 
 
+
+
     public Liste<T> subliste(int fra, int til) {
 
+        fratilKontroll(antall, fra, til);
 
+        DobbeltLenketListe<T> nySubliste = new DobbeltLenketListe<>();
 
+        Node<T> node;
+
+        for (int i = fra; i < til; i++) {
+
+            node = finnNode(i);
+
+            nySubliste.leggInn(node.verdi);
+        }
+
+        endringer = 0;
+
+        return nySubliste;
     }
+
+
+
+
+
+
+
+
 
     @Override
     public int antall() {
@@ -390,6 +416,22 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             }
         }
         return node;
+    }
+
+    // Kopiert fra kompendiet, Programkode 1.2.3 a.
+    private static void fratilKontroll(int antall, int fra, int til)
+    {
+        if (fra < 0)                                  // fra er negativ
+            throw new IndexOutOfBoundsException
+                    ("fra(" + fra + ") er negativ!");
+
+        if (til > antall)                          // til er utenfor tabellen
+            throw new IndexOutOfBoundsException
+                    ("til(" + til + ") > tablengde(" + antall + ")");
+
+        if (fra > til)                                // fra er større enn til
+            throw new IllegalArgumentException
+                    ("fra(" + fra + ") > til(" + til + ") - illegalt intervall!");
     }
 
 } // class DobbeltLenketListe
