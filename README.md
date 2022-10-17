@@ -13,3 +13,13 @@ Hele denne obligen har blitt løst av Alexander.
 Oppgave 1: Se kommentarer i kildekoden.
 
 Oppgave 2: Se kommentarer i kildekoden.
+
+Oppgave 3: Se kommentarer i kildekoden.
+
+Oppgave 4: Se kommentarer i kildekoden.
+
+Oppgave 5: Se kommentarer i kildekoden.
+
+Oppgave 6:
+
+Oppgave 8:
