@@ -218,8 +218,14 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public boolean inneholder(T verdi) {
-        throw new UnsupportedOperationException();
-    }
+
+        // Returnerer false hvis verdien ikke finnes ved å kalle på indeksTil og se om det vi får tilbake er -1
+         if (indeksTil(verdi) == -1) return false;
+
+        // Returnerer true hvis verdien finnes
+        else return true;
+
+    } // inneholder(T verdi)
 
     @Override
     public T hent(int indeks) {
@@ -232,8 +238,33 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public int indeksTil(T verdi) {
-        throw new UnsupportedOperationException();
-    }
+
+        // Koden i denne metoden er hentet fra kompendiet under "Løsningsforslag - oppgaver i Avsnitt 3.3.3"
+
+        // Hvis verdien er null, så returneres -1.
+        if (verdi == null) {
+            return -1;
+        }
+
+        // Ellers starter letingen etter verdien ved hode
+        Node<T> node = hode;
+
+        // Løkke som løper gjennom og sjekker verdiene på hver indeks i listen
+        for (int indeks = 0; indeks < antall ; indeks++)
+        {
+            // Sammenlikner nodeverdien med inputverdien og returnerer indeksen hvis verdien finnes
+            if (node.verdi.equals(verdi)) {
+                return indeks;
+            }
+
+            // Går til neste node hvis verdien ennå ikke er funnet
+            node = node.neste;
+        }
+
+        // Returnerer -1 hvis verdien ikke finnes i listen
+        return -1;
+
+    } // indeksTil(T verdi)
 
     @Override
     public T oppdater(int indeks, T nyverdi) {
