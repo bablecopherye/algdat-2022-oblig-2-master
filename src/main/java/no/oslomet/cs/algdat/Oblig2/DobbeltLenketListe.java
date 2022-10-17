@@ -57,6 +57,17 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         System.out.println(liste3.subliste(8,liste3.antall()));  // [I, J]
         // System.out.println(liste3.subliste(0,11));  // skal kaste unntak
 
+        liste = new DobbeltLenketListe<>();
+
+        liste.leggInn(0, 4);  // ny verdi i tom liste
+        liste.leggInn(0, 2);  // ny verdi legges forrest
+        liste.leggInn(2, 6);  // ny verdi legges bakerst
+        liste.leggInn(1, 3);  // ny verdi nest forrest
+        liste.leggInn(3, 5);  // ny verdi nest bakerst
+        liste.leggInn(0, 1);  // ny verdi forrest
+        liste.leggInn(6, 7);  // ny verdi legges bakerst
+        System.out.println(liste);
+
     }
 
     /**
@@ -213,8 +224,64 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public void leggInn(int indeks, T verdi) {
-        throw new UnsupportedOperationException();
-    }
+
+        // Sjekker om verdien som legges inn er null
+        Objects.requireNonNull(verdi, "Null-verdi er ulovlig!");
+
+        // Sjekker om indeksen som er oppgitt er lovlig
+        indeksKontroll(indeks, true);
+
+        // Oppretter ny node med innkommende verdi
+        Node<T> nyNode = new Node<>(verdi);
+
+        // Hvis indeksen er 0 skal ny verdi ligge først
+        if (indeks == 0) {
+
+            // Hvis lista på forhånd er tom så peker både hode og hale til samme node
+            if (antall == 0) {
+                hale = hode = nyNode;
+            }
+
+            else {
+                // Hode peker på ny node
+                hode.forrige = nyNode;
+                nyNode.neste = hode;
+                hode = nyNode;
+            }
+
+        }
+
+        // Hvis indeksen er lik antallet skal noden ligge bakerst
+        else if (indeks == antall) {
+
+            // hale sin neste tilordnes nyNode, nyNode sin forrige tilordnes hale sin verdi og halepekeren flyttes bakerst
+            hale.neste = nyNode;
+            nyNode.forrige = hale;
+            hale = nyNode;
+        }
+
+        // Ellers løper vi gjennom en løkke og legger noden inn der den oppgitte indeksen tilsier
+        else {
+            Node<T> nodeForfra = hode;
+            for (int i = 1; i < indeks; i++) {
+                nodeForfra = nodeForfra.neste;
+            }
+
+            Node<T> nodeBakfra = nodeForfra.neste;
+
+            // Noden legges inn i lista og kobles på de andre nodene
+            nodeForfra.neste = nyNode;
+            nyNode.neste = nodeBakfra;
+            nodeBakfra.forrige = nyNode;
+            nyNode.forrige = nodeForfra;
+
+        }
+
+        // Øker antallet noder i listen med én, samt øker endringer med én
+        endringer++;
+        antall++;
+
+    } // leggInn(int indeks, T verdi)
 
     @Override
     public boolean inneholder(T verdi) {
