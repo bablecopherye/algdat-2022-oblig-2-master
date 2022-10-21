@@ -351,15 +351,135 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         return gammelVerdi;
     }
 
+
+
+
+
+
+
     @Override
     public boolean fjern(T verdi) {
-        throw new UnsupportedOperationException();
+
+        // Sjekker om verdien som det søkes etter og skal fjernes er null
+        Objects.requireNonNull(verdi, "Null-verdi er ulovlig!");
+
+        // Starter letingen etter noden som skal fjernes fra hode
+        Node<T> node = hode;
+
+        if (verdi == hode.verdi) {
+
+            // Hode peker på ny node
+            hode = hode.neste;
+            hode.forrige = null;
+        }
+
+        else {
+            for (int i = 1; i < antall; i++) {
+
+                if (verdi == node.verdi) {
+                    node.forrige = node.neste;
+                    node.neste = node.forrige;
+                }
+
+                else {
+                    node = node.neste;
+                }
+            }
+        }
+
+
+        // Reduserer antallet noder, men øker endringer, og returnerer true.
+        antall--;
+        endringer++;
+        return true;
     }
+
+
+
+
+
+
 
     @Override
     public T fjern(int indeks) {
-        throw new UnsupportedOperationException();
+
+        // Sjekker om indeksen som er oppgitt er lovlig
+        indeksKontroll(indeks, false);
+
+        // Initialiserer variabel som lagrer verdien til noden som skal fjernes
+        T verdiTilFjernetNode;
+
+        // Starter letingen etter noden som skal fjernes fra hode
+        Node<T> node = hode;
+
+        // Hvis indeksen er null
+        if (indeks == 0) {
+
+            // Hvis lista kun inneholder én node, så fjernes denne ved at både hode og hale peker på null
+            if (antall == 1) {
+
+                // Legger verdien til noden som skal fjernes inn i variabelen verdiTilFjernetNode
+                verdiTilFjernetNode = hode.verdi;
+                hode = hale = null;
+            }
+
+            // Hvis listen inneholder flere enn én node, så fjernes aktuelle node ved å endre pekerne
+            else {
+
+                // Legger verdien til noden som skal fjernes inn i variabelen verdiTilFjernetNode
+                verdiTilFjernetNode = hode.verdi;
+
+                // Hode peker på ny node
+                hode = hode.neste;
+                hode.forrige = null;
+            }
+        }
+
+        // Hvis indeksen er lik halen
+        else if (indeks == antall-1) {
+
+            // Legger verdien til noden som skal fjernes inn i variabelen verdiTilFjernetNode
+            verdiTilFjernetNode = hale.verdi;
+
+            // Hale-pekeren flyttes en bakover. Hale sin neste peker på null.
+            hale = hale.forrige;
+            hale.neste = null;
+        }
+
+        else {
+
+            for (int i = 0; i < indeks; i++) {
+                node = node.neste;
+            }
+
+            // Legger verdien til noden som skal fjernes inn i variabelen verdiTilFjernetNode
+            verdiTilFjernetNode = node.verdi;
+
+            // Legger de aktuelle nodene inn i variablene a, b og c
+            Node<T> a = node.forrige;
+            Node<T> b = node;
+            Node<T> c = node.neste;
+
+            // Kobler fra noden som skal fjernes, og kobler nodene på hver side til hverandre.
+            a.neste = c;
+            c.forrige = a;
+            b.forrige = null;
+            b.neste = null;
+
+
+        }
+
+        // Reduserer antallet noder, men øker endringer, og returnerer verdien til noden som fjernes.
+        antall--;
+        endringer++;
+        return verdiTilFjernetNode;
     }
+
+
+
+
+
+
 
     @Override
     public void nullstill() {
