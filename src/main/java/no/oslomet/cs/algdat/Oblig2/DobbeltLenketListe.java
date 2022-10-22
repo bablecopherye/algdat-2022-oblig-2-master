@@ -361,37 +361,70 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     public boolean fjern(T verdi) {
 
         // Sjekker om verdien som det søkes etter og skal fjernes er null
-        Objects.requireNonNull(verdi, "Null-verdi er ulovlig!");
+        if (verdi == null) {
+            return false;
+        }
 
         // Starter letingen etter noden som skal fjernes fra hode
         Node<T> node = hode;
 
-        if (verdi == hode.verdi) {
 
-            // Hode peker på ny node
-            hode = hode.neste;
-            hode.forrige = null;
+        if (verdi.equals(hode.verdi)) {
+
+            // Hvis lista kun inneholder én node, og den noden har samme verdi som det søkes etter...
+            if (antall == 1) {
+                // ... så fjernes denne ved at både hode og hale peker på null
+                hode = hale = null;
+            }
+
+           else {
+                // Hode peker på ny node
+                hode = hode.neste;
+                hode.forrige = null;
+            }
+
+        }
+
+        else if (verdi.equals(hale.verdi)) {
+            // Hale-pekeren flyttes en bakover. Hale sin neste peker på null.
+            hale = hale.forrige;
+            hale.neste = null;
         }
 
         else {
             for (int i = 1; i < antall; i++) {
 
-                if (verdi == node.verdi) {
-                    node.forrige = node.neste;
-                    node.neste = node.forrige;
+                if (verdi.equals(node.verdi)) {
+
+                    // Legger de aktuelle nodene inn i variablene a, b og c
+                    Node<T> a = node.forrige;
+                    Node<T> b = node;
+                    Node<T> c = node.neste;
+
+                    // Kobler fra noden som skal fjernes, og kobler nodene på hver side til hverandre.
+                    a.neste = c;
+                    c.forrige = a;
+                    b.forrige = null;
+                    b.neste = null;
+
+                    break;
+                }
+
+                else if (i != antall-1) {
+                    node = node.neste;
                 }
 
                 else {
-                    node = node.neste;
+                    return false;
                 }
             }
         }
 
 
-        // Reduserer antallet noder, men øker endringer, og returnerer true.
-        antall--;
-        endringer++;
-        return true;
+            // Reduserer antallet noder, men øker endringer, og returnerer true.
+            antall--;
+            endringer++;
+            return true;
     }
 
 
@@ -465,15 +498,14 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             c.forrige = a;
             b.forrige = null;
             b.neste = null;
-
-
         }
 
         // Reduserer antallet noder, men øker endringer, og returnerer verdien til noden som fjernes.
         antall--;
         endringer++;
         return verdiTilFjernetNode;
-    }
+
+    } // T fjern(int indeks)
 
 
 
