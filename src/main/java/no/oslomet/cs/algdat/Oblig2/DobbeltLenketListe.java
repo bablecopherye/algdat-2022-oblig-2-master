@@ -4,79 +4,10 @@ package no.oslomet.cs.algdat.Oblig2;
 ////////////////// class DobbeltLenketListe //////////////////////////////
 
 
-import java.io.InvalidObjectException;
 import java.util.*;
 
 
 public class DobbeltLenketListe<T> implements Liste<T> {
-
-    public static void main(String[] args) {
-/*
-        Liste<String> liste1 = new DobbeltLenketListe<>();
-        System.out.println(liste1.antall() + " " + liste1.tom());
-        // Utskrift: 0 true
-
-        String[] s = {"Ole", null, "Per", "Kari", null};
-        Liste<String> liste2 = new DobbeltLenketListe<>(s);
-        System.out.println(liste2.antall() + " " + liste2.tom());
-        // Utskrift: 3 false
-
-        String[] s1 = {}, s2 = {"A"}, s3 = {null,"A",null,"B",null};
-        DobbeltLenketListe<String> l1 = new DobbeltLenketListe<>(s1);
-        DobbeltLenketListe<String> l2 = new DobbeltLenketListe<>(s2);
-        DobbeltLenketListe<String> l3 = new DobbeltLenketListe<>(s3);
-
-        System.out.println(l1.toString() + " " + l2.toString()
-                + " " + l3.toString() + " " + l1.omvendtString() + " "
-                + l2.omvendtString() + " " + l3.omvendtString());
-
-        // Utskrift: [] [A] [A, B] [] [A] [B, A]
-
-
-        DobbeltLenketListe<Integer> liste = new DobbeltLenketListe<>();
-        System.out.println(liste.toString() + " " + liste.omvendtString());
-        for (int i = 1; i <= 3; i++) {
-            liste.leggInn(i);
-            System.out.println(liste.toString() + " " + liste.omvendtString());
-        }
-
-        // Utskrift:
-        // [] []
-        // [1] [1]
-        // [1, 2] [2, 1]
-        // [1, 2, 3] [3, 2, 1]
-
-
-        Character[] c = {'A','B','C','D','E','F','G','H','I','J',};
-        DobbeltLenketListe<Character> liste3 = new DobbeltLenketListe<>(c);
-        System.out.println(liste3.subliste(3,8));  // [D, E, F, G, H]
-        System.out.println(liste3.subliste(5,5));  // []
-        System.out.println(liste3.subliste(8,liste3.antall()));  // [I, J]
-        // System.out.println(liste3.subliste(0,11));  // skal kaste unntak
-
-        liste = new DobbeltLenketListe<>();
-
-        liste.leggInn(0, 4);  // ny verdi i tom liste
-        liste.leggInn(0, 2);  // ny verdi legges forrest
-        liste.leggInn(2, 6);  // ny verdi legges bakerst
-        liste.leggInn(1, 3);  // ny verdi nest forrest
-        liste.leggInn(3, 5);  // ny verdi nest bakerst
-        liste.leggInn(0, 1);  // ny verdi forrest
-        liste.leggInn(6, 7);  // ny verdi legges bakerst
-        System.out.println(liste);
-*/
-        String[] navn = {"Lars","Anders","Bodil","Kari","Per","Berit"};
-        Liste<String> liste10 = new DobbeltLenketListe<>(navn);
-
-        liste10.forEach(s -> System.out.print(s + " "));
-        System.out.println();
-        for (String s1 : liste10) System.out.print(s1 + " ");
-
-        // Utskrift:
-        // Lars Anders Bodil Kari Per Berit
-        // Lars Anders Bodil Kari Per Berit
-
-    }
 
     /**
      * Node class
@@ -402,16 +333,15 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
                 if (verdi.equals(node.verdi)) {
 
-                    // Legger de aktuelle nodene inn i variablene a, b og c
+                    // Legger nodens neste og forrige inn i variablene a og c
                     Node<T> a = node.forrige;
-                    Node<T> b = node;
                     Node<T> c = node.neste;
 
                     // Kobler fra noden som skal fjernes, og kobler nodene på hver side til hverandre.
                     a.neste = c;
                     c.forrige = a;
-                    b.forrige = null;
-                    b.neste = null;
+                    node.forrige = null;
+                    node.neste = null;
 
                     // Hopper ut av for-løkka
                     break;
@@ -530,7 +460,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         tegn.append('[');
 
         // Hvis listen ikke er tom...
-        if (tom() == false) {
+        if (!tom()) {
 
             // ... så legges først verdien til hodenoden i den lenkede listen til StringBuilder-en.
             tegn.append(hode.verdi);
@@ -570,7 +500,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         tegn.append('[');
 
         // Hvis listen ikke er tom...
-        if (tom() == false) {
+        if (!tom()) {
 
             // ... så legges først verdien til halenoden i den lenkede listen til StringBuilder-en.
             Node<T> node = hale;
@@ -605,15 +535,6 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         return new DobbeltLenketListeIterator();
     }
 
-
-    /*
-    Lag  til  slutt  metoden Iterator<T>  iterator(int  indeks).  Det  må  først  sjekkes  at
-indeksen  er  lovlig.  Bruk  metoden indeksKontroll().  Deretter  skal  den  ved  hjelp  av
-konstruktøren i punkt c) returnere en instans av iteratorklassen.
-     */
-
-
-
     public Iterator<T> iterator(int indeks) {
 
         // Sjekker om indeksen som er oppgitt er lovlig
@@ -621,11 +542,6 @@ konstruktøren i punkt c) returnere en instans av iteratorklassen.
 
         return new DobbeltLenketListeIterator(indeks);
     }
-
-
-
-
-
 
     private class DobbeltLenketListeIterator implements Iterator<T> {
         private Node<T> denne;
@@ -646,11 +562,7 @@ konstruktøren i punkt c) returnere en instans av iteratorklassen.
             // Starter letingen etter noden
             Node<T> node = hode;
 
-            if (indeks == 0) {
-                node = hode;
-            }
-
-            else {
+            if (indeks != 0) {
                 for (int i = 0; i < indeks; i++) {
                     node = node.neste;
                 }
@@ -699,10 +611,6 @@ konstruktøren i punkt c) returnere en instans av iteratorklassen.
         }
 
     } // class DobbeltLenketListeIterator
-
-    public static <T> void sorter(Liste<T> liste, Comparator<? super T> c) {
-        throw new UnsupportedOperationException();
-    }
 
     private Node<T> finnNode(int indeks) {
 
