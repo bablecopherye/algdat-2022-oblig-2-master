@@ -351,16 +351,10 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         return gammelVerdi;
     }
 
-
-
-
-
-
-
     @Override
     public boolean fjern(T verdi) {
 
-        // Sjekker om verdien som det søkes etter og skal fjernes er null
+        // Sjekker om verdien som det søkes etter og fjernes er null
         if (verdi == null) {
             return false;
         }
@@ -368,29 +362,33 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         // Starter letingen etter noden som skal fjernes fra hode
         Node<T> node = hode;
 
-
+        // Hvis verdien er lik hodeverdien...
         if (verdi.equals(hode.verdi)) {
 
-            // Hvis lista kun inneholder én node, og den noden har samme verdi som det søkes etter...
+            // ... og hvis lista kun inneholder én node...
             if (antall == 1) {
+
                 // ... så fjernes denne ved at både hode og hale peker på null
                 hode = hale = null;
             }
 
+            // Ellers fjernes denne ved at hodepekeren flyttes én til høyre og den tidligere hodeverdien nulles
            else {
                 // Hode peker på ny node
                 hode = hode.neste;
                 hode.forrige = null;
             }
-
         }
 
+        // Hvis verdi er samme som haleverdien
         else if (verdi.equals(hale.verdi)) {
+
             // Hale-pekeren flyttes en bakover. Hale sin neste peker på null.
             hale = hale.forrige;
             hale.neste = null;
         }
 
+        // Hvis hverken hode eller hale er lik verdien, så løpes det gjennom lista med en for-løkke
         else {
             for (int i = 1; i < antall; i++) {
 
@@ -407,31 +405,28 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                     b.forrige = null;
                     b.neste = null;
 
+                    // Hopper ut av for-løkka
                     break;
                 }
 
+                // Går videre til neste node
                 else if (i != antall-1) {
                     node = node.neste;
                 }
 
+                // Returnerer false hvis verdien ikke finnes i lista
                 else {
                     return false;
                 }
             }
         }
 
+        // Reduserer antallet noder, men øker endringer, og returnerer true.
+        antall--;
+        endringer++;
+        return true;
 
-            // Reduserer antallet noder, men øker endringer, og returnerer true.
-            antall--;
-            endringer++;
-            return true;
-    }
-
-
-
-
-
-
+    } // fjern(T verdi)
 
     @Override
     public T fjern(int indeks) {
