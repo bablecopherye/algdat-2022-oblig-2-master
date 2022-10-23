@@ -5,16 +5,13 @@ package no.oslomet.cs.algdat.Oblig2;
 
 
 import java.io.InvalidObjectException;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 
 public class DobbeltLenketListe<T> implements Liste<T> {
 
     public static void main(String[] args) {
-
+/*
         Liste<String> liste1 = new DobbeltLenketListe<>();
         System.out.println(liste1.antall() + " " + liste1.tom());
         // Utskrift: 0 true
@@ -67,6 +64,17 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         liste.leggInn(0, 1);  // ny verdi forrest
         liste.leggInn(6, 7);  // ny verdi legges bakerst
         System.out.println(liste);
+*/
+        String[] navn = {"Lars","Anders","Bodil","Kari","Per","Berit"};
+        Liste<String> liste10 = new DobbeltLenketListe<>(navn);
+
+        liste10.forEach(s -> System.out.print(s + " "));
+        System.out.println();
+        for (String s1 : liste10) System.out.print(s1 + " ");
+
+        // Utskrift:
+        // Lars Anders Bodil Kari Per Berit
+        // Lars Anders Bodil Kari Per Berit
 
     }
 
@@ -502,15 +510,12 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     } // T fjern(int indeks)
 
-
-
-
-
-
-
     @Override
     public void nullstill() {
-        throw new UnsupportedOperationException();
+
+        for (int i = antall-1; i >= 0; i--) {
+            fjern(i);
+        }
     }
 
     @Override
@@ -597,12 +602,30 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public Iterator<T> iterator() {
-        throw new UnsupportedOperationException();
+        return new DobbeltLenketListeIterator();
     }
 
+
+    /*
+    Lag  til  slutt  metoden Iterator<T>  iterator(int  indeks).  Det  må  først  sjekkes  at
+indeksen  er  lovlig.  Bruk  metoden indeksKontroll().  Deretter  skal  den  ved  hjelp  av
+konstruktøren i punkt c) returnere en instans av iteratorklassen.
+     */
+
+
+
     public Iterator<T> iterator(int indeks) {
-        throw new UnsupportedOperationException();
+
+        // Sjekker om indeksen som er oppgitt er lovlig
+        indeksKontroll(indeks, false);
+
+        return new DobbeltLenketListeIterator(indeks);
     }
+
+
+
+
+
 
     private class DobbeltLenketListeIterator implements Iterator<T> {
         private Node<T> denne;
@@ -616,7 +639,28 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         }
 
         private DobbeltLenketListeIterator(int indeks) {
-            throw new UnsupportedOperationException();
+
+            // Sjekker om indeksen som er oppgitt er lovlig
+            indeksKontroll(indeks, false);
+
+            // Starter letingen etter noden
+            Node<T> node = hode;
+
+            if (indeks == 0) {
+                node = hode;
+            }
+
+            else {
+                for (int i = 0; i < indeks; i++) {
+                    node = node.neste;
+                }
+            }
+
+            denne = new Node<>(node.verdi);
+
+            // Resten er som den ferdigkodede konstruktøren over
+            fjernOK = false;  // blir sann når next() kalles
+            iteratorendringer = endringer;  // teller endringer
         }
 
         @Override
@@ -626,7 +670,27 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         @Override
         public T next() {
-            throw new UnsupportedOperationException();
+
+            // Deler av koden er hentet fra kompendiet, programkode 3.2.5 e).
+
+            // Sjekker om iteratorendringer er lik endringer
+            if (iteratorendringer != endringer) {
+                throw new ConcurrentModificationException("Iteratorendringer og endringer samsvarer ikke");
+            }
+
+            // Sjekker om det er flere igjen i listen
+            if (!hasNext()) {
+                throw new NoSuchElementException("Det er ikke flere igjen i lista.");
+            }
+
+            fjernOK = true;
+
+            // Tar vare på nodeverdien og flytter den til neste node
+            T denneVerdi = denne.verdi;
+            denne = denne.neste;
+
+            // Returnerer verdien
+            return denneVerdi;
         }
 
         @Override
