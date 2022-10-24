@@ -48,7 +48,13 @@ en `for`-løkke til å hente ut aktuelle verdier fra og med den oppgitte indekse
 den oppgitte indeksen i `til`-parameteren. Herunder brukes metodene `finnNode()` og `leggInn()`.
 
 ### Oppgave 4:
-Se kommentarer i kildekoden.
+Kildekoden til metoden `indeksTil(T verdi)` er hentet fra kompendiet under "Løsningsforslag - oppgaver i Avsnitt 3.3.3".
+Metoden sjekker først om `verdi` er null, og returnerer da `-1`. Ellers starter letingen ved hode. En `for`-løkke
+løper gjennom og sammenlikner `verdi`-parameteren med `node.verdi` ved å bruke `equals()`. Finnes ikke verdien
+i lista, så returneres `-1`, ellers returneres den første verdien fra venstre som er lik verdien det søkes etter.
+
+`inneholder(T verdi)` returnerer `true` hvis lista inneholder verdien som søkes etter. Dette ved hjelp av overnevte metode.
+Ellers returneres `false` hvis `indeksTil` returnerer `-1`.
 
 ### Oppgave 5:
 Se kommentarer i kildekoden.
