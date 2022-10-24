@@ -74,3 +74,15 @@ på hver side til hverandre. I `fjern(T verdi)` brukes `equals()` for å sammenl
 med verdien til nodene i listen. Antall reduseres med én og endringer øker med én ved vellykket fjerning.
 
 ### Oppgave 8:
+
+`T  next()`-metoden er delvis hentet fra kompendiet, programkode 3.2.5 e). Det blir sjekket om iteratorendringer
+er lik endringer. Så blir det sjekket om det er flere igjen i listen. For så å ta vare på naboverdien og
+flytte den til neste node.
+
+`Iterator<T> iterator()` returnerer en ny instans av `DobbeltLenketListeIterator()`.
+
+I `private  DobbeltLenketListeIterator(int  indeks)` settes `denne` til verdien til noden med innkommende indeks.
+Dette gjøres ved å løpe gjennom en løkke og opprette en node med riktig verdi.
+
+Oppgave avsluttes med å lage `Iterator<T> iterator(int indeks)` som returnerer en ny instans av `DobbeltLenketListeIterator()`
+med `indeks`-parameteren som parameter.
