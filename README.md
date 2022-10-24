@@ -48,6 +48,7 @@ en `for`-løkke til å hente ut aktuelle verdier fra og med den oppgitte indekse
 den oppgitte indeksen i `til`-parameteren. Herunder brukes metodene `finnNode()` og `leggInn()`.
 
 ### Oppgave 4:
+
 Kildekoden til metoden `indeksTil(T verdi)` er hentet fra kompendiet under "Løsningsforslag - oppgaver i Avsnitt 3.3.3".
 Metoden sjekker først om `verdi` er null, og returnerer da `-1`. Ellers starter letingen ved hode. En `for`-løkke
 løper gjennom og sammenlikner `verdi`-parameteren med `node.verdi` ved å bruke `equals()`. Finnes ikke verdien
@@ -57,8 +58,15 @@ i lista, så returneres `-1`, ellers returneres den første verdien fra venstre 
 Ellers returneres `false` hvis `indeksTil` returnerer `-1`.
 
 ### Oppgave 5:
-Se kommentarer i kildekoden.
+
+I denne oppgaven har jeg laget metoden `leggInn(int indeks, T verdi)`. Denne metoden fungerer slik at først
+sjekkes det om verdien som legges inn er null ved hjelp av `Objects.requireNonNull()`. Deretter sjekkes det om
+indeksen som er oppgitt er lovlig ved hjelp av `indeksKontroll()`. Ny node opprettes så med innkommende `verdi`.
+Det brukes `if` og `else`-setninger, samt en `for`-løkke for å avgjøre hvor noden skal ligge.
+Endringer og antall økes ved vellykket innlegging.
 
 ### Oppgave 6:
+
+
 
 ### Oppgave 8:
