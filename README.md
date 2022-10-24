@@ -10,6 +10,8 @@ Hele denne obligen har blitt løst av Alexander.
 
 # Oppgavebeskrivelse
 
+Her følger en kort beskrivelse av de ulike oppgaveløsningene. For mer detaljer, se kommentarer i kildekoden.
+
 ### Oppgave 1:
 
 Metoden `antall()` returnerer antallet som er telt opp, mens `tom()` sjekker om listen er tom.
@@ -29,9 +31,21 @@ For metoden `leggInn(T verdi)` så legges en ny node med innkommende verdi baker
 Hvis tom liste, så settes både hode- og halepeker på den nye noden. Ellers settes tilordnes hale sin neste verdien til 
 den nye noden, den nye noden sin forrige tilordnes hale sin verdi og halepekeren flyttes bakerst.
 
-
 ### Oppgave 3:
-Se kommentarer i kildekoden.
+
+Den private hjelpemetoden `finnNode(int indeks)` sjekker først om parameteret indeks er mindre enn antall/2,
+i så fall letes det etter noden fra hode. Hvis indeksen er lik eller større enn antall/2, så letes det etter noden
+fra halen.
+
+Metoden `hent(int indeks)` bruker `finnNode`-metoden, og returnerer den aktuelle nodens verdi.
+
+`oppdater(int indeks, T nyverdi)` finner også den aktuelle noden ved hjelp av parameteren `indeks` som sendes til
+metoden `finnNode`. Når noden er funnet lagres den gamle verdien i en variabel, mens nodens verdi oppdateres til
+ny verdi ved hjelp av parameteren `T nyverdi`. Endringer økes og gammel verdi returneres.
+
+Metoden `Liste<T> subliste(int fra, int til)` oppretter en instans av klassen `DobbeltLenketListe`. Det benyttes
+en `for`-løkke til å hente ut aktuelle verdier fra og med den oppgitte indeksen i `fra`-parameteren og til 
+den oppgitte indeksen i `til`-parameteren. Herunder brukes metodene `finnNode()` og `leggInn()`.
 
 ### Oppgave 4:
 Se kommentarer i kildekoden.
