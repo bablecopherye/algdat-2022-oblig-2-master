@@ -67,6 +67,10 @@ Endringer og antall økes ved vellykket innlegging.
 
 ### Oppgave 6:
 
-
+I metodene `fjern(T verdi)` og `fjern(int indeks)` så benyttes `if`- og `else`-setninger for å avgjøre hvilken
+node som skal fjernes. Hvis hode- eller hale-noden skal fjernes, så gjøres dette ved å flytte pekeren en til siden.
+Ellers løpes det gjennom en løkke for å finne riktig node, for så å koble fra noden som skal fjernes, og kobler nodene 
+på hver side til hverandre. I `fjern(T verdi)` brukes `equals()` for å sammenlikne innekommende parameter `verdi`
+med verdien til nodene i listen. Antall reduseres med én og endringer øker med én ved vellykket fjerning.
 
 ### Oppgave 8:
